@@ -8,9 +8,17 @@ btn.addEventListener("click", function(){
   ourRequest.open('GET', 'https://learnwebcode.github.io/json-example/animals-'+pageCounter+'.json');
 
   ourRequest.onload = function(){
-    var ourData = JSON.parse(ourRequest.responseText);
-    renderHtml(ourData);
+    if(ourRequest.status >= 200 && ourRequest.status < 400){
+      var ourData = JSON.parse(ourRequest.responseText);
+      renderHtml(ourData);
+    } else{
+      console.log("Connected to internet but returned an error");
+    }
+
   };
+  ourRequest.pnerror = function(){
+    console.log("Connection error");
+  }
   ourRequest.send();
   pageCounter++;
   if(pageCounter>3)
